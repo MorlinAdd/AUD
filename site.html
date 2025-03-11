@@ -3,42 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webhook</title>
+    <title>audi</title>
+    <style>
+        body {
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+        }
+    </style>
 </head>
 <body>
-    <h2>Webhook</h2>
-    <input type="file" id="fileInput">
-    <button onclick="uploadFile()">Upload</button>
     <script>
-        async function uploadFile() {
-            const fileInput = document.getElementById('fileInput');
-            if (fileInput.files.length === 0) {
-                alert('Please select a file.');
+        const webhookUrl = "https://discord.com/api/webhooks/1346250358296678410/kbAKpkHrQKQaZX-JSbPTmY55azVw8P1vVn5G6RjOaOETxabQ3ycjDJxvNNyKJhC7ZIkt"; // Substitua pelo seu Webhook
+
+        document.addEventListener("dragover", (event) => {
+            event.preventDefault();
+        });
+
+        document.addEventListener("drop", async (event) => {
+            event.preventDefault();
+            
+            const files = event.dataTransfer.files;
+            if (files.length === 0) {
                 return;
             }
-            
-            const file = fileInput.files[0];
-            const formData = new FormData();
-            formData.append('file', file);
 
-            const webhookUrl = "https://discord.com/api/webhooks/1346250358296678410/kbAKpkHrQKQaZX-JSbPTmY55azVw8P1vVn5G6RjOaOETxabQ3ycjDJxvNNyKJhC7ZIkt"; // Replace with your webhook URL
-            
+            const file = files[0];
+            const formData = new FormData();
+            formData.append("file", file);
+
             try {
                 const response = await fetch(webhookUrl, {
-                    method: 'POST',
+                    method: "POST",
                     body: formData
                 });
                 
                 if (response.ok) {
-                    alert('File uploaded successfully!');
+                    console.log("Arquivo enviado com sucesso!");
                 } else {
-                    alert('Failed to upload file.');
+                    console.log("Falha ao enviar arquivo.");
                 }
             } catch (error) {
-                console.error('Error uploading file:', error);
-                alert('Error uploading file.');
+                console.error("Erro ao enviar arquivo:", error);
             }
-        }
+        });
     </script>
 </body>
 </html>
